@@ -591,7 +591,7 @@
 
 <script>
 // ── Config ─────────────────────────────────────────
-const POWER_AUTOMATE_URL = "YOUR_POWER_AUTOMATE_URL_HERE";
+const POWER_AUTOMATE_URL = "https://default47892e3e1f994d16942f545830e0d3.74.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3a1c9364a73444e3bd65c5a5ceb4e257/triggers/manual/paths/invoke?api-version=1";
 
 const STRATEGIES = [
   "Asset Management","Operations & Maintenance","Finance",
@@ -1133,7 +1133,7 @@ async function submitEpic() {
   };
 
   // Send to Power Automate
-  if (POWER_AUTOMATE_URL && POWER_AUTOMATE_URL !== "YOUR_POWER_AUTOMATE_URL_HERE") {
+  if (POWER_AUTOMATE_URL && POWER_AUTOMATE_URL !== "https://default47892e3e1f994d16942f545830e0d3.74.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3a1c9364a73444e3bd65c5a5ceb4e257/triggers/manual/paths/invoke?api-version=1") {
     try {
       await fetch(POWER_AUTOMATE_URL, {
         method: "POST",
