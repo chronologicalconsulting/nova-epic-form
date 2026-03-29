@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NOVA — Epic Submission · RES Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Calibri:wght@300;400;600&family=Calibri+Light&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --dark:   #323A45;
+    --orange: #F07E26;
+    --grey:   #76869C;
+    --light:  #F8F6F6;
+    --body:   #4B5767;
+    --white:  #FFFFFF;
+    --line:   #D0D5DC;
+    --red-bg: #FFEBEE; --red-fg: #C62828;
+    --amb-bg: #FFF8E1; --amb-fg: #E65100;
+    --grn-bg: #E8F5E9; --grn-fg: #2E7D32;
+    --blu-bg: #E3F2FD; --blu-fg: #1565C0;
+  }
+
+  body {
+    font-family: 'Calibri', 'Segoe UI', sans-serif;
+    background: var(--light);
+    color: var(--body);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--dark);
+    padding: 0 32px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .header-left { display: flex; align-items: center; gap: 14px; }
+
+  .header-logo {
+    width: 32px; height: 32px;
+    background: var(--orange);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 16px;
+  }
+
+  .header-title {
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  .header-title span { color: var(--orange); font-weight: 600; }
+
+  .header-badge {
+    font-size: 11px;
+    color: var(--grey);
+    background: rgba(255,255,255,0.08);
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── Progress ── */
+  .progress-bar {
+    background: white;
+    border-bottom: 1px solid var(--line);
+    padding: 0 32px;
+  }
+
+  .progress-steps {
+    display: flex;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    position: relative;
+  }
+
+  .step::after {
+    content: '';
+    position: absolute;
+    top: 22px; left: 60%; right: -40%;
+    height: 2px;
+    background: var(--line);
+    z-index: 0;
+    transition: background 0.3s;
+  }
+
+  .step.done::after { background: var(--orange); }
+  .step:last-child::after { display: none; }
+
+  .step-circle {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--line);
+    color: var(--grey);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    margin-bottom: 6px;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+
+  .step.active .step-circle { background: var(--dark); color: white; }
+  .step.done .step-circle   { background: var(--orange); color: white; }
+
+  .step-label {
+    font-size: 10px;
+    color: var(--grey);
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .step.active .step-label { color: var(--dark); font-weight: 600; }
+
+  /* ── Main ── */
+  .main {
+    max-width: 720px;
+    margin: 28px auto;
+    padding: 0 24px 60px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .card-sub {
+    font-size: 13px;
+    color: var(--grey);
+    margin-bottom: 24px;
+  }
+
+  /* ── Form elements ── */
+  .field { margin-bottom: 18px; }
+
+  .label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .req { color: var(--orange); margin-left: 2px; }
+
+  .input, .select, .textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--dark);
+    background: #FAFAFA;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input:focus, .select:focus, .textarea:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(240,126,38,0.1);
+    background: white;
+  }
+
+  .textarea { resize: vertical; min-height: 90px; }
+
+  .select { cursor: pointer; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── Owner hint ── */
+  .owner-hint {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--light);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  .owner-hint strong { color: var(--dark); }
+
+  /* ── Size buttons ── */
+  .size-buttons { display: flex; gap: 8px; }
+
+  .size-btn {
+    flex: 1;
+    padding: 10px 0;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    background: white;
+    color: var(--grey);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .size-btn.active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: white;
+  }
+
+  .size-hint {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--grey);
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: var(--blu-bg);
+    border-left: 4px solid var(--dark);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .info-box-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .info-box-text { font-size: 13px; color: var(--body); line-height: 1.6; }
+
+  /* ── Loading ── */
+  .loading {
+    text-align: center;
+    padding: 60px 32px;
+  }
+
+  .spinner {
+    width: 44px; height: 44px;
+    border: 4px solid var(--light);
+    border-top: 4px solid var(--orange);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .loading-sub { font-size: 13px; color: var(--grey); }
+
+  /* ── Analysis results ── */
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .result-title { font-size: 18px; font-weight: 600; color: var(--dark); }
+  .result-meta  { font-size: 12px; color: var(--grey); margin-top: 2px; }
+
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .summary-box {
+    padding: 14px 16px;
+    background: var(--light);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--dark);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* ── Score bars ── */
+  .scores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .score-item { margin-bottom: 14px; }
+
+  .score-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .score-label { font-size: 12px; color: var(--grey); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  .score-value { font-size: 13px; font-weight: 700; }
+
+  .score-bar-bg {
+    height: 6px;
+    background: #E8E8E8;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+
+  .score-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+
+  .score-reason { font-size: 11px; color: var(--grey); line-height: 1.5; }
+
+  /* ── Metrics row ── */
+  .metrics-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .metric {
+    flex: 1;
+    padding: 12px;
+    background: var(--light);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .metric-label { font-size: 10px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .metric-value { font-size: 16px; font-weight: 700; color: var(--dark); }
+
+  /* ── Acceptance Criteria ── */
+  .ac-item {
+    padding: 12px 16px;
+    background: var(--light);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .ac-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  /* ── DoR ── */
+  .dor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .dor-title { font-size: 15px; font-weight: 600; color: var(--dark); }
+
+  .dor-badge {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .dor-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid #F5F5F5;
+  }
+
+  .dor-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .dor-icon.pass { background: var(--grn-bg); color: var(--grn-fg); }
+  .dor-icon.fail { background: var(--red-bg); color: var(--red-fg); }
+
+  .dor-text { font-size: 13px; }
+  .dor-text.pass { color: var(--grn-fg); }
+  .dor-text.fail { color: var(--red-fg); }
+
+  /* ── Recommendation ── */
+  .rec-box {
+    padding: 16px 20px;
+    background: var(--blu-bg);
+    border-left: 4px solid var(--dark);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .rec-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .rec-text { font-size: 14px; color: var(--dark); line-height: 1.6; }
+
+  /* ── Confirm table ── */
+  .confirm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .confirm-item {
+    padding: 12px 14px;
+    background: var(--light);
+    border-radius: 8px;
+  }
+
+  .confirm-label { font-size: 10px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .confirm-value { font-size: 14px; font-weight: 700; color: var(--dark); }
+
+  /* ── Warning box ── */
+  .warn-box {
+    padding: 14px 18px;
+    background: var(--amb-bg);
+    border-left: 4px solid var(--amb-fg);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 20px;
+  }
+
+  .warn-title { font-size: 12px; font-weight: 700; color: var(--amb-fg); margin-bottom: 4px; text-transform: uppercase; }
+  .warn-text  { font-size: 13px; color: var(--dark); line-height: 1.6; }
+
+  /* ── Success ── */
+  .success {
+    text-align: center;
+    padding: 60px 32px;
+  }
+
+  .success-icon {
+    width: 64px; height: 64px;
+    background: var(--grn-bg);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+  }
+
+  .success-title { font-size: 24px; font-weight: 300; color: var(--dark); margin-bottom: 10px; }
+  .success-sub   { font-size: 15px; color: var(--grey); margin-bottom: 20px; }
+
+  .success-rec {
+    padding: 14px 20px;
+    background: var(--light);
+    border-radius: 8px;
+    text-align: left;
+    margin: 20px 0;
+  }
+
+  .success-rec-label { font-size: 11px; color: var(--grey); margin-bottom: 6px; font-weight: 600; }
+  .success-rec-text  { font-size: 14px; color: var(--dark); }
+
+  /* ── Error ── */
+  .error-box {
+    padding: 14px 18px;
+    background: var(--red-bg);
+    border-left: 4px solid var(--red-fg);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--red-fg);
+  }
+
+  /* ── Navigation ── */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .btn {
+    padding: 11px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-back {
+    background: white;
+    color: var(--dark);
+    border: 1.5px solid var(--line);
+  }
+
+  .btn-back:hover { border-color: var(--dark); }
+  .btn-back:disabled { color: var(--line); border-color: var(--line); cursor: default; }
+
+  .btn-next {
+    background: var(--orange);
+    color: white;
+  }
+
+  .btn-next:hover { background: #d96e18; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(240,126,38,0.3); }
+  .btn-next:disabled { background: var(--line); cursor: default; transform: none; box-shadow: none; }
+
+  .btn-submit { background: #2E7D32; color: white; }
+  .btn-submit:hover { background: #1B5E20; }
+
+  .btn-reset { background: var(--orange); color: white; margin-top: 20px; }
+
+  @media (max-width: 600px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .scores-grid { grid-template-columns: 1fr; }
+    .confirm-grid { grid-template-columns: 1fr; }
+    .metrics-row { flex-wrap: wrap; }
+    .main { padding: 0 16px 40px; }
+    .card { padding: 20px; }
+    .header { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">N</div>
+    <div class="header-title"><span>NOVA</span> — Epic Submission</div>
+  </div>
+  <div class="header-badge">Powered by Claude AI · Aivability</div>
+</div>
+
+<!-- Progress -->
+<div class="progress-bar">
+  <div class="progress-steps" id="progressSteps">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main" id="mainContent">
+  <!-- Rendered by JS -->
+</div>
+
+<script>
+// ── Config ─────────────────────────────────────────
+const POWER_AUTOMATE_URL = "YOUR_POWER_AUTOMATE_URL_HERE";
+
+const STRATEGIES = [
+  "Asset Management","Operations & Maintenance","Finance",
+  "People & Culture","Information Technology","Development",
+  "Construction","Procurement","Digital Solutions"
+];
+
+const BT_OWNERS = {
+  "Asset Management":        "Shahriar Eftekhari / Ian Hunter",
+  "Operations & Maintenance":"Joe Wootton",
+  "Finance":                 "Stacey Jackson / Henrik Brandt",
+  "People & Culture":        "Maria Irvin / Ben Hooper",
+  "Information Technology":  "Cameron Wilhelm / Adam Mengham",
+  "Development":             "Tom Ogilvy / Marco Perona",
+  "Construction":            "Cameron Brittain / AJ Jain",
+  "Procurement":             "Paula Halloran-Day",
+  "Digital Solutions":       "TBC",
+};
+
+const STEPS = ["Epic Details","Business Case","AI Analysis","Confirm & Submit"];
+
+// ── State ───────────────────────────────────────────
+let state = {
+  step: 0,
+  loading: false,
+  analysis: null,
+  error: "",
+  submitted: false,
+  form: {
+    strategy:"", epicName:"", sponsor:"", regions:"",
+    users:"", problem:"", solution:"", costOfDelay:"",
+    deadline:"", sizeEstimate:"M"
+  }
+};
+
+// ── Claude API prompt ───────────────────────────────
+function buildPrompt(f) {
+  return `You are an IFS Programme Agile expert at RES Group. Analyse this Epic submission and return ONLY valid JSON — no markdown, no preamble, no explanation.
+
+Epic:
+- Strategy: ${f.strategy}
+- Epic Name: ${f.epicName}
+- Sponsor: ${f.sponsor}
+- Regions: ${f.regions}
+- Users Impacted: ${f.users}
+- Problem: ${f.problem}
+- Solution: ${f.solution}
+- Cost of Delay: ${f.costOfDelay}
+- Regulatory Deadline: ${f.deadline || "None"}
+- Initial Size: ${f.sizeEstimate}
+
+Return this exact JSON:
+{
+  "epicSummary": "one sentence",
+  "businessValue": 1-5,
+  "businessValueReason": "why",
+  "costOfDelay": 1-5,
+  "costOfDelayReason": "why",
+  "riskScore": 1-5,
+  "riskReason": "why",
+  "effortScore": 1-5,
+  "effortReason": "why",
+  "wsjfScore": number,
+  "zone": "NOW|NEXT|LATER",
+  "moscow": "Must Have|Should Have|Could Have",
+  "tshirtSize": "XS|S|M|L|XL",
+  "rag": "RED|AMBER|GREEN",
+  "acceptanceCriteria": ["GIVEN...WHEN...THEN...", "...", "..."],
+  "dorChecklist": {
+    "ownerAssigned": true,
+    "moscowAgreed": true,
+    "zoneSet": true,
+    "serviceLineIdentified": true,
+    "sizeEstimated": true,
+    "wsjfCalculated": true,
+    "acceptanceCriteriaWritten": true,
+    "linkedToParent": false
+  },
+  "dorPass": true|false,
+  "recommendation": "one sentence for leadership"
+}`;
+}
+
+// ── Render helpers ──────────────────────────────────
+function ragColor(r) {
+  if (r==="RED")   return {bg:"var(--red-bg)",fg:"var(--red-fg)"};
+  if (r==="GREEN") return {bg:"var(--grn-bg)",fg:"var(--grn-fg)"};
+  return {bg:"var(--amb-bg)",fg:"var(--amb-fg)"};
+}
+
+function zoneColor(z) {
+  if (z==="NOW")  return {bg:"var(--grn-bg)",fg:"var(--grn-fg)"};
+  if (z==="NEXT") return {bg:"var(--amb-bg)",fg:"var(--amb-fg)"};
+  return {bg:"var(--light)",fg:"var(--grey)"};
+}
+
+function scoreColor(v) {
+  if (v>=4) return "var(--grn-fg)";
+  if (v>=2) return "var(--amb-fg)";
+  return "var(--red-fg)";
+}
+
+function scoreBarColor(v) {
+  if (v>=4) return "var(--grn-fg)";
+  if (v>=2) return "var(--amb-fg)";
+  return "var(--red-fg)";
+}
+
+// ── Render progress ─────────────────────────────────
+function renderProgress() {
+  const el = document.getElementById("progressSteps");
+  el.innerHTML = STEPS.map((s,i) => {
+    let cls = "";
+    if (i < state.step) cls = "done";
+    else if (i === state.step) cls = "active";
+    return `<div class="step ${cls}">
+      <div class="step-circle">${i < state.step ? "✓" : i+1}</div>
+      <div class="step-label">${s}</div>
+    </div>`;
+  }).join("");
+}
+
+// ── Render content ──────────────────────────────────
+function render() {
+  renderProgress();
+  const el = document.getElementById("mainContent");
+
+  if (state.submitted) { renderSuccess(el); return; }
+  if (state.loading)   { renderLoading(el); return; }
+
+  switch(state.step) {
+    case 0: renderStep0(el); break;
+    case 1: renderStep1(el); break;
+    case 2: renderStep2(el); break;
+    case 3: renderStep3(el); break;
+  }
+}
+
+// ── Step 0 — Epic Details ───────────────────────────
+function renderStep0(el) {
+  const f = state.form;
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title">Epic Details</div>
+      <div class="card-sub">Tell us about the business capability you want to add to IFS.</div>
+
+      <div class="field">
+        <label class="label">Strategy <span class="req">*</span></label>
+        <select class="select" id="f-strategy" onchange="setField('strategy',this.value);renderOwnerHint()">
+          <option value="">Select a strategy…</option>
+          ${STRATEGIES.map(s=>`<option value="${s}" ${f.strategy===s?"selected":""}>${s}</option>`).join("")}
+        </select>
+        <div id="owner-hint" style="display:${f.strategy?'block':'none'}" class="owner-hint">
+          BT Owner: <strong>${BT_OWNERS[f.strategy]||""}</strong>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Epic Name <span class="req">*</span></label>
+        <input class="input" id="f-epicName" value="${f.epicName}"
+          placeholder="e.g. Global Payroll CloudPay Integration"
+          oninput="setField('epicName',this.value)"/>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">Business Sponsor <span class="req">*</span></label>
+          <input class="input" id="f-sponsor" value="${f.sponsor}"
+            placeholder="e.g. Stacey Jackson"
+            oninput="setField('sponsor',this.value)"/>
+        </div>
+        <div class="field">
+          <label class="label">Estimated Users Impacted</label>
+          <input class="input" value="${f.users}"
+            placeholder="e.g. 200 Finance users globally"
+            oninput="setField('users',this.value)"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Affected Countries / Regions</label>
+        <input class="input" value="${f.regions}"
+          placeholder="e.g. UK, US, France, Australia"
+          oninput="setField('regions',this.value)"/>
+      </div>
+
+      <div class="field">
+        <label class="label">Initial Size Estimate</label>
+        <div class="size-buttons">
+          ${["XS","S","M","L","XL"].map(sz=>`
+            <button class="size-btn ${f.sizeEstimate===sz?'active':''}"
+              onclick="setField('sizeEstimate','${sz}');render()">${sz}</button>
+          `).join("")}
+        </div>
+        <div class="size-hint">XS &lt;1 sprint · S 1 sprint · M 1-2 · L 2-3 · XL 4+ sprints</div>
+      </div>
+    </div>
+
+    ${state.error ? `<div class="error-box">${state.error}</div>` : ""}
+
+    <div class="nav-buttons">
+      <button class="btn btn-back" disabled>← Back</button>
+      <button class="btn btn-next"
+        onclick="nextStep()"
+        ${canNext() ? "" : "disabled"}>
+        Next →
+      </button>
+    </div>`;
+}
+
+function renderOwnerHint() {
+  const hint = document.getElementById("owner-hint");
+  const strat = document.getElementById("f-strategy").value;
+  if (hint && strat) {
+    hint.style.display = "block";
+    hint.innerHTML = `BT Owner: <strong>${BT_OWNERS[strat]||"TBC"}</strong>`;
+  }
+}
+
+// ── Step 1 — Business Case ──────────────────────────
+function renderStep1(el) {
+  const f = state.form;
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title">Business Case</div>
+      <div class="card-sub">Claude uses this information to calculate WSJF scoring and write acceptance criteria.</div>
+
+      <div class="field">
+        <label class="label">What is the business problem? <span class="req">*</span></label>
+        <textarea class="textarea" placeholder="Describe the current pain point, process gap or opportunity in plain language…"
+          oninput="setField('problem',this.value)">${f.problem}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="label">What is the proposed solution in IFS?</label>
+        <textarea class="textarea" placeholder="Describe what you want IFS to do — even if you don't know the technical approach…"
+          oninput="setField('solution',this.value)">${f.solution}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="label">What happens if we do NOT deliver this? <span class="req">*</span></label>
+        <textarea class="textarea" rows="3" placeholder="e.g. Manual payroll reconciliation for 24 countries, regulatory breach risk, £200k/year in manual effort…"
+          oninput="setField('costOfDelay',this.value)">${f.costOfDelay}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="label">Regulatory or contractual deadline?</label>
+        <input class="input" value="${f.deadline}"
+          placeholder="e.g. EU e-invoicing mandate — 1 Jan 2026, or leave blank if none"
+          oninput="setField('deadline',this.value)"/>
+      </div>
+
+      <div class="info-box">
+        <div class="info-box-title">What happens next</div>
+        <div class="info-box-text">Claude will analyse your submission and automatically calculate WSJF score, MoSCoW classification, delivery zone, T-shirt size and write three acceptance criteria in GIVEN/WHEN/THEN format. This takes approximately 10 seconds.</div>
+      </div>
+    </div>
+
+    ${state.error ? `<div class="error-box">${state.error}</div>` : ""}
+
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn btn-next"
+        onclick="runAnalysis()"
+        ${canNext() ? "" : "disabled"}>
+        Analyse with Claude →
+      </button>
+    </div>`;
+}
+
+// ── Step 2 — Analysis ───────────────────────────────
+function renderStep2(el) {
+  const a = state.analysis;
+  if (!a) return;
+
+  const rc = ragColor(a.rag);
+  const zc = zoneColor(a.zone);
+
+  const dorItems = [
+    ["Owner assigned",                    a.dorChecklist?.ownerAssigned],
+    ["MoSCoW classification agreed",      a.dorChecklist?.moscowAgreed],
+    ["Delivery zone set",                 a.dorChecklist?.zoneSet],
+    ["Service line identified",           a.dorChecklist?.serviceLineIdentified],
+    ["T-shirt size estimated",            a.dorChecklist?.sizeEstimated],
+    ["WSJF score calculated",             a.dorChecklist?.wsjfCalculated],
+    ["Acceptance criteria written",       a.dorChecklist?.acceptanceCriteriaWritten],
+    ["Linked to parent Feature in ADO",   a.dorChecklist?.linkedToParent],
+  ];
+
+  el.innerHTML = `
+    <!-- Summary -->
+    <div class="card">
+      <div class="result-header">
+        <div>
+          <div class="result-title">${state.form.epicName}</div>
+          <div class="result-meta">${state.form.strategy} · ${state.form.sponsor}</div>
+        </div>
+        <div class="badges">
+          <span class="badge" style="background:${rc.bg};color:${rc.fg}">${a.rag}</span>
+          <span class="badge" style="background:var(--grn-bg);color:var(--grn-fg)">WSJF ${a.wsjfScore}</span>
+          <span class="badge" style="background:${zc.bg};color:${zc.fg}">${a.zone}</span>
+        </div>
+      </div>
+      <div class="summary-box">${a.epicSummary}</div>
+    </div>
+
+    <!-- WSJF Scoring -->
+    <div class="card">
+      <div class="card-title" style="font-size:16px;margin-bottom:20px">WSJF Scoring</div>
+      <div class="scores-grid">
+        <div>
+          ${scoreBlock("Business Value", a.businessValue, a.businessValueReason)}
+          ${scoreBlock("Cost of Delay", a.costOfDelay, a.costOfDelayReason)}
+        </div>
+        <div>
+          ${scoreBlock("Risk Reduction", a.riskScore, a.riskReason)}
+          ${scoreBlock("Effort (inverse)", a.effortScore, a.effortReason)}
+        </div>
+      </div>
+      <div class="metrics-row">
+        ${metricBox("MoSCoW", a.moscow)}
+        ${metricBox("T-Shirt", a.tshirtSize)}
+        ${metricBox("Zone", a.zone)}
+        ${metricBox("WSJF", a.wsjfScore)}
+      </div>
+    </div>
+
+    <!-- Acceptance Criteria -->
+    <div class="card">
+      <div class="card-title" style="font-size:16px;margin-bottom:16px">Acceptance Criteria</div>
+      ${(a.acceptanceCriteria||[]).map((ac,i)=>`
+        <div class="ac-item">
+          <div class="ac-num">AC ${i+1}</div>
+          ${ac}
+        </div>`).join("")}
+    </div>
+
+    <!-- DoR -->
+    <div class="card">
+      <div class="dor-header">
+        <div class="dor-title">Definition of Ready</div>
+        <span class="dor-badge" style="background:${a.dorPass?'var(--grn-bg)':'var(--red-bg)'};color:${a.dorPass?'var(--grn-fg)':'var(--red-fg)'}">
+          ${a.dorPass ? "READY" : "NOT READY"}
+        </span>
+      </div>
+      ${dorItems.map(([label,pass])=>`
+        <div class="dor-row">
+          <div class="dor-icon ${pass?'pass':'fail'}">${pass?'✓':'✗'}</div>
+          <div class="dor-text ${pass?'pass':'fail'}">${label}</div>
+        </div>`).join("")}
+    </div>
+
+    <!-- Recommendation -->
+    <div class="rec-box" style="margin-bottom:20px">
+      <div class="rec-label">AI Recommendation for Programme Team</div>
+      <div class="rec-text">${a.recommendation}</div>
+    </div>
+
+    ${state.error ? `<div class="error-box">${state.error}</div>` : ""}
+
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn btn-next" onclick="nextStep()">Review & Confirm →</button>
+    </div>`;
+}
+
+function scoreBlock(label, value, reason) {
+  const pct = (value/5)*100;
+  return `
+    <div class="score-item">
+      <div class="score-header">
+        <span class="score-label">${label}</span>
+        <span class="score-value" style="color:${scoreColor(value)}">${value}/5</span>
+      </div>
+      <div class="score-bar-bg">
+        <div class="score-bar" style="width:${pct}%;background:${scoreBarColor(value)}"></div>
+      </div>
+      <div class="score-reason">${reason}</div>
+    </div>`;
+}
+
+function metricBox(label, value) {
+  return `
+    <div class="metric">
+      <div class="metric-label">${label}</div>
+      <div class="metric-value">${value}</div>
+    </div>`;
+}
+
+// ── Step 3 — Confirm ────────────────────────────────
+function renderStep3(el) {
+  const f = state.form;
+  const a = state.analysis;
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title">Confirm & Submit</div>
+      <div class="card-sub">Review your submission before it is logged and routed to the programme team.</div>
+
+      <div class="confirm-grid">
+        ${confirmItem("Strategy",        f.strategy)}
+        ${confirmItem("Epic Name",       f.epicName)}
+        ${confirmItem("Business Sponsor",f.sponsor)}
+        ${confirmItem("WSJF Score",      a.wsjfScore)}
+        ${confirmItem("MoSCoW",          a.moscow)}
+        ${confirmItem("Zone",            a.zone)}
+        ${confirmItem("T-Shirt Size",    a.tshirtSize)}
+        ${confirmItem("RAG",             a.rag)}
+        ${confirmItem("DoR Status",      a.dorPass?"READY":"NOT READY")}
+        ${confirmItem("Next Action",     "Route to Programme Team")}
+      </div>
+
+      <div class="warn-box">
+        <div class="warn-title">What happens after submission</div>
+        <div class="warn-text">This Epic will be logged in the NOVA SharePoint site with the WSJF score and acceptance criteria. The programme team will review, create the Feature in Azure DevOps and schedule it for the next Prioritisation Workshop. You will receive confirmation within 2 working days.</div>
+      </div>
+    </div>
+
+    ${state.error ? `<div class="error-box">${state.error}</div>` : ""}
+
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn btn-submit" onclick="submitEpic()">Submit Epic ✓</button>
+    </div>`;
+}
+
+function confirmItem(label, value) {
+  return `
+    <div class="confirm-item">
+      <div class="confirm-label">${label}</div>
+      <div class="confirm-value">${value}</div>
+    </div>`;
+}
+
+// ── Loading ─────────────────────────────────────────
+function renderLoading(el) {
+  el.innerHTML = `
+    <div class="card">
+      <div class="loading">
+        <div class="spinner"></div>
+        <div class="loading-title">Claude is analysing your Epic…</div>
+        <div class="loading-sub">Calculating WSJF · Writing acceptance criteria · Checking DoR · Recommending zone</div>
+      </div>
+    </div>`;
+}
+
+// ── Success ─────────────────────────────────────────
+function renderSuccess(el) {
+  const a = state.analysis;
+  el.innerHTML = `
+    <div class="card">
+      <div class="success">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Epic Submitted Successfully</div>
+        <div class="success-sub"><strong>${state.form.epicName}</strong> has been processed and logged in NOVA.</div>
+
+        <div class="success-rec">
+          <div class="success-rec-label">AI Recommendation</div>
+          <div class="success-rec-text">${a?.recommendation||""}</div>
+        </div>
+
+        <div class="badges" style="justify-content:center;margin-bottom:20px">
+          <span class="badge" style="background:var(--grn-bg);color:var(--grn-fg)">WSJF ${a?.wsjfScore}</span>
+          <span class="badge" style="background:var(--red-bg);color:var(--red-fg)">${a?.moscow}</span>
+          <span class="badge" style="background:var(--amb-bg);color:var(--amb-fg)">${a?.zone}</span>
+          <span class="badge" style="background:var(--light);color:var(--grey)">${a?.tshirtSize}</span>
+        </div>
+
+        <button class="btn btn-reset" onclick="resetForm()">Submit Another Epic</button>
+      </div>
+    </div>`;
+}
+
+// ── Logic ───────────────────────────────────────────
+function setField(key, value) {
+  state.form[key] = value;
+}
+
+function canNext() {
+  const f = state.form;
+  if (state.step === 0) return f.strategy && f.epicName && f.sponsor;
+  if (state.step === 1) return f.problem && f.costOfDelay;
+  return true;
+}
+
+function nextStep() {
+  if (!canNext()) return;
+  state.step++;
+  state.error = "";
+  render();
+  window.scrollTo(0,0);
+}
+
+function prevStep() {
+  state.step = Math.max(0, state.step-1);
+  state.error = "";
+  render();
+  window.scrollTo(0,0);
+}
+
+async function runAnalysis() {
+  if (!canNext()) return;
+  state.loading = true;
+  state.error = "";
+  render();
+
+  try {
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        system: "You are an IFS Programme Agile expert. Return only valid JSON, no markdown.",
+        messages: [{ role: "user", content: buildPrompt(state.form) }],
+      }),
+    });
+
+    const data = await resp.json();
+    const raw  = data?.content?.[0]?.text || "";
+    const clean = raw.replace(/```json|```/g, "").trim();
+    state.analysis = JSON.parse(clean);
+    state.step = 2;
+  } catch(e) {
+    state.error = "Analysis failed. Please check your connection and try again.";
+    state.step = 1;
+  } finally {
+    state.loading = false;
+    render();
+    window.scrollTo(0,0);
+  }
+}
+
+async function submitEpic() {
+  const payload = {
+    ...state.form,
+    ...state.analysis,
+    submittedAt: new Date().toISOString(),
+  };
+
+  // Send to Power Automate
+  if (POWER_AUTOMATE_URL && POWER_AUTOMATE_URL !== "YOUR_POWER_AUTOMATE_URL_HERE") {
+    try {
+      await fetch(POWER_AUTOMATE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        mode: "no-cors",
+      });
+    } catch(e) {
+      console.log("PA notification sent (no-cors mode)");
+    }
+  }
+
+  state.submitted = true;
+  render();
+  window.scrollTo(0,0);
+}
+
+function resetForm() {
+  state = {
+    step: 0, loading: false, analysis: null,
+    error: "", submitted: false,
+    form: {
+      strategy:"", epicName:"", sponsor:"", regions:"",
+      users:"", problem:"", solution:"", costOfDelay:"",
+      deadline:"", sizeEstimate:"M"
+    }
+  };
+  render();
+  window.scrollTo(0,0);
+}
+
+// ── Init ────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
